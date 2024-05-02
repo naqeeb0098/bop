@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "autoname": "PF-INV-D-.#####",
+ "creation": "2024-04-01 14:38:01.700875",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pf_investment",
+  "invested_amount",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "pf_investment",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PF Investment"
+  },
+  {
+   "fetch_from": "pf_investment.amount_invested",
+   "fieldname": "invested_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Invested Amount"
+  },
+  {
+   "fetch_from": "pf_investment.remarks",
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-03 14:19:22.357158",
+ "modified_by": "Administrator",
+ "module": "Bank of Punjab",
+ "name": "PF Investment Details",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

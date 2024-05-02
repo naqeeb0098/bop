@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PF-INV-.#####",
+ "creation": "2024-04-01 14:36:01.273928",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "against_provident_fund",
+  "pf_information_section",
+  "pf_balance",
+  "rate_of_int",
+  "date",
+  "column_break_6",
+  "type",
+  "amount_invested",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "against_provident_fund",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Against Provident Fund",
+   "options": "Provident Fund",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pf_information_section",
+   "fieldtype": "Section Break",
+   "label": "PF Information"
+  },
+  {
+   "fetch_from": "against_provident_fund.pf_balance",
+   "fieldname": "pf_balance",
+   "fieldtype": "Float",
+   "label": "PF Balance"
+  },
+  {
+   "fieldname": "rate_of_int",
+   "fieldtype": "Float",
+   "label": "Rate of Int"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "\nADD\nSUBTRACT",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount_invested",
+   "fieldtype": "Float",
+   "label": "Amount Invested",
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Provident Fund Investment",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-04-01 14:39:19.107336",
+ "modified_by": "Administrator",
+ "module": "Bank of Punjab",
+ "name": "Provident Fund Investment",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

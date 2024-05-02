@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-26 21:53:57.725839",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "deduction_type",
+  "principal",
+  "markup"
+ ],
+ "fields": [
+  {
+   "fieldname": "deduction_type",
+   "fieldtype": "Data",
+   "label": "Deduction Type"
+  },
+  {
+   "fieldname": "principal",
+   "fieldtype": "Float",
+   "label": "Principal"
+  },
+  {
+   "fieldname": "markup",
+   "fieldtype": "Float",
+   "label": "Markup"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-26 21:53:57.725839",
+ "modified_by": "Administrator",
+ "module": "Bank of Punjab",
+ "name": "Deduction Type",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

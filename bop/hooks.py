@@ -121,14 +121,22 @@ scheduler_events = {
     "cron": {
 		"10 0 * * *": [
 			"bop.update_daily_markup"
+		],
+	"50 15 * * *":[
+			"bop.bank_of_punjab.apis.loan.calculate_daily_markup"
+		],
+	"59 15 * * *":[
+			"bop.bank_of_punjab.apis.cash_security.calculate_daily_markup_for_cash_security",
+			"calculate_daily_provident_fund"
 		]
+	
 	},
-	# "all": [
-	# 	"bop.tasks.all"
-	# ],
-	# "daily": [
-	# 	"bop.tasks.daily"
-	# ],
+	"all": [
+		"bop.tasks.all"
+	],
+	"daily": [
+	 	"bop.tasks.daily"
+	 ],
 	# "hourly": [
 	# 	"bop.tasks.hourly"
 	# ],

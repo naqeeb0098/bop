@@ -1,0 +1,287 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "BOP-ACC-LOAN-.YYYY.-.#####",
+ "creation": "2024-03-15 13:50:59.726232",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee_id",
+  "employee_name",
+  "custom_branch",
+  "amended_from",
+  "column_break_4",
+  "company",
+  "posting_date",
+  "status",
+  "loan_details_section",
+  "loan_type",
+  "markup_rate",
+  "repayment_start_date",
+  "custom_column_break_ydht1",
+  "loan_amount",
+  "monthly_repayment_amount",
+  "disbursement_date",
+  "custom_account_info",
+  "disbursement_account",
+  "loan_account",
+  "deduction_section",
+  "deduction_type",
+  "markup",
+  "principal",
+  "totals_section",
+  "total_principal_amount",
+  "total_principal_paid",
+  "principal_balance",
+  "column_break_hzpka",
+  "opening_balance",
+  "total_markup_amount",
+  "total_markup_paid",
+  "balance_markup_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee ID",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee_id.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "BOP Loan",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee_id.company",
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Company",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "Sanctioned",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Sanctioned\nPartially Disbursed\nDisbursed\nLoan Closure Requested\nClosed",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "loan_details_section",
+   "fieldtype": "Section Break",
+   "label": "Loan Details"
+  },
+  {
+   "fieldname": "loan_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Loan Type",
+   "options": "Loan Type",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "loan_type.mark_up_rate",
+   "fieldname": "markup_rate",
+   "fieldtype": "Float",
+   "label": "Markup Rate",
+   "precision": "2"
+  },
+  {
+   "default": "Today",
+   "depends_on": "loan_type",
+   "fieldname": "repayment_start_date",
+   "fieldtype": "Data",
+   "label": "Repayment Start Date"
+  },
+  {
+   "fieldname": "loan_amount",
+   "fieldtype": "Currency",
+   "label": "Loan Amount",
+   "non_negative": 1,
+   "options": "Company:company:default_currency",
+   "reqd": 1
+  },
+  {
+   "depends_on": "loan_type",
+   "fieldname": "monthly_repayment_amount",
+   "fieldtype": "Currency",
+   "label": "Monthly Repayment Amount",
+   "options": "Company:company:default_currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "disbursement_date",
+   "fieldtype": "Date",
+   "label": "Disbursement Date",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "loan_type.disbursement_account",
+   "fieldname": "disbursement_account",
+   "fieldtype": "Link",
+   "label": "Disbursement Account",
+   "options": "Account"
+  },
+  {
+   "fetch_from": "loan_type.loan_account",
+   "fieldname": "loan_account",
+   "fieldtype": "Link",
+   "label": "Loan Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "deduction_section",
+   "fieldtype": "Section Break",
+   "label": "Deduction"
+  },
+  {
+   "fetch_from": "loan_type.deduction_type",
+   "fieldname": "deduction_type",
+   "fieldtype": "Data",
+   "label": "Deduction Type",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "loan_type.markup",
+   "fieldname": "markup",
+   "fieldtype": "Float",
+   "label": "Markup",
+   "options": "Loan Type",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "loan_type.principal",
+   "fieldname": "principal",
+   "fieldtype": "Float",
+   "label": "Principal",
+   "options": "Loan Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "total_principal_amount",
+   "fieldtype": "Currency",
+   "label": "Total Principal Amount",
+   "options": "BOP Loan"
+  },
+  {
+   "fieldname": "total_principal_paid",
+   "fieldtype": "Currency",
+   "label": "Total Principal Paid",
+   "no_copy": 1,
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "principal_balance",
+   "fieldtype": "Currency",
+   "label": "Principal Balance",
+   "no_copy": 1,
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "column_break_hzpka",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_markup_amount",
+   "fieldtype": "Currency",
+   "label": "Total Markup Amount",
+   "no_copy": 1,
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "total_markup_paid",
+   "fieldtype": "Currency",
+   "label": "Total Markup Paid",
+   "no_copy": 1,
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "balance_markup_amount",
+   "fieldtype": "Currency",
+   "label": "Balance Markup Amount",
+   "no_copy": 1,
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "custom_branch",
+   "fieldtype": "Data",
+   "label": "Branch"
+  },
+  {
+   "fieldname": "custom_column_break_ydht1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "custom_account_info",
+   "fieldtype": "Section Break",
+   "label": "Account Info"
+  },
+  {
+   "fieldname": "opening_balance",
+   "fieldtype": "Currency",
+   "label": "Opening Balance"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-04-24 18:51:38.548361",
+ "modified_by": "Administrator",
+ "module": "Bank of Punjab",
+ "name": "BOP Loan",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

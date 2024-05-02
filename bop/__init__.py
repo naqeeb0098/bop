@@ -74,6 +74,10 @@ def update_daily_markup():
 				daily_markup_doc.save(ignore_permissions=True)	
 
 
-				
-
-	
+@frappe.whitelist()
+def fetch_deduction_details(deduction_type):
+    deduction_doc = frappe.get_doc('Deduction Type', deduction_type)
+    return {
+        'principal_amount': deduction_doc.principal,
+        'markup_amount': deduction_doc.markup
+    }
