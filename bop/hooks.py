@@ -235,5 +235,13 @@ fixtures = [
                 "Bank of Punjab"
             ]]
         ]
+    },
+    {
+        "dt":"Client Script",
+        "filters":[
+            ["module","in",[
+                "Bank of Punjab"
+            ]]
+        ]
     }
 ]

@@ -1,0 +1,46 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Loan",
+  "enabled": 1,
+  "modified": "2024-02-26 22:27:12.556468",
+  "module": "Bank of Punjab",
+  "name": "Loan Changes",
+  "script": "frappe.ui.form.on('Loan', {\n    deduction_type: function(frm) {\n        frappe.call({\n            method: 'bop.fetch_deduction_details',\n            args: {\n                deduction_type: frm.doc.deduction_type\n            },\n            callback: function(r) {\n                if (r.message) {\n                    frm.set_value('principal', r.message.principal_amount);\n                    frm.set_value('markup', r.message.markup_amount);\n                }\n            }\n        });\n    },\n    // onload: function(frm) {\n    //     updateTotalPrincipalAmount(frm);\n\n    //     // Add field change event handlers for read-only fields\n    //     frm.fields_dict.total_payment.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n            \n    //     });\n    //     frm.fields_dict.total_principal_paid.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n    //     });\n    //     frm.fields_dict.written_off_amount.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n    //     });\n    //     frm.fields_dict.refund_amount.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n    //     });\n    //     frm.fields_dict.credit_adjustment_amount.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n    //     });\n    //     frm.fields_dict.debit_adjustment_amount.$input.on('change', function() {\n    //         updateTotalPrincipalAmount(frm);\n    //     });\n    // }\n});\n\n// function updateTotalPrincipalAmount(frm) {\n//     // Get the values of relevant fields\n//     var total_payable_amount = frm.doc.total_payment || 0;\n//     var total_principal_amount = frm.doc.total_principal_paid || 0;\n//     var write_of_amount = frm.doc.written_off_amount || 0;\n//     var refund_amount = frm.doc.refund_amount || 0;\n//     var credit_amount = frm.doc.credit_adjustment_amount || 0;\n//     var debit_amount = frm.doc.debit_adjustment_amount || 0;\n    \n//     // Calculate the new total principal amount\n//     var new_total_principal_amount = total_payable_amount - total_principal_amount - credit_amount - write_of_amount - refund_amount + debit_amount;\n    \n//     // Update the total_principal_amount field\n//     frm.set_value('remaining_principal_amount', new_total_principal_amount);\n//     frm.save();\n// }\n\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Salary Slip",
+  "enabled": 1,
+  "modified": "2024-02-27 13:14:32.584791",
+  "module": "Bank of Punjab",
+  "name": "Salary Slip Loan Changes",
+  "script": "frappe.ui.form.on('Salary Slip', {\n    after_save: function(frm) {\n        fetchChildTableValues(frm);\n    },\n    onload: function(frm) {\n        fetchChildTableValues(frm);\n    }\n});\n\nfunction fetchChildTableValues(frm) {\n    var loans = frm.doc.loans || [];\n    for (var i = 0; i < loans.length; i++) {\n        // Accessing each row's fields\n        var loan = loans[i];\n        var total = flt(loan.total_payment);\n        var principal = flt(loan.principal_per);\n        var markup = flt(loan.markup_per);\n        var principal_deduction = flt(total * principal / 100);\n        var markup_deduction = flt(total * markup / 100);\n        loan.principal_deduction = principal_deduction;\n        loan.markup_deduction = markup_deduction;\n    }\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Loan Type",
+  "enabled": 1,
+  "modified": "2024-03-15 17:23:11.664253",
+  "module": "Bank of Punjab",
+  "name": "Deduction Type Addition In LoanType",
+  "script": "frappe.ui.form.on('Loan Type', {\ndeduction_type: function(frm) {\n        frappe.call({\n            method: 'bop.fetch_deduction_details',\n            args: {\n                deduction_type: frm.doc.deduction_type\n            },\n            callback: function(r) {\n                if (r.message) {\n                    frm.set_value('principal', r.message.principal_amount);\n                    frm.set_value('markup', r.message.markup_amount);\n                }\n            }\n        });\n    },\n})",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Salary Slip",
+  "enabled": 1,
+  "modified": "2024-04-03 13:23:00.583363",
+  "module": "Bank of Punjab",
+  "name": "provident fund balance updation from salary slip Enabled",
+  "script": "frappe.ui.form.on('Salary Slip', {\n    before_submit(frm) {\n\t\tfrappe.call({\n// \t\t\tdoc : frm.doc,\n\t\t\tmethod: \"bop.bank_of_punjab.apis.provident_fund.provident_fund_balance_updation_on_basis_of_salary_slip\",\n\t\t\targs: {\n\t\t\t\tdoc_name: frm.doc.name\n\t\t\t},\n\t\t\tcallback: function(r) {\n\t\t\t  if (r.message && r.message.error) {\n\t\t\t\t  frappe.msgprint(r.message.error);\n\t\t\t\t  frappe.validated = false;\n\t\t\t  }\n\t\t  }\n\t\t});\n\treturn false;\n    },\n    \n    after_cancel (frm) {\n\t\tfrappe.call({\n// \t\t\tdoc : frm.doc,\n\t\t\tmethod: \"bop.bank_of_punjab.apis.provident_fund.provident_fund_balance_updation_on_basis_of_salary_slip_cancel\",\n\t\t\targs: {\n\t\t\t\tdoc_name: frm.doc.name\n\t\t\t},\n\t\t\tcallback: function(r) {\n\t\t\t  if (r.message && r.message.error) {\n\t\t\t\t  frappe.msgprint(r.message.error);\n\t\t\t\t  frappe.validated = false;\n\t\t\t  }\n\t\t  }\n\t\t});\n\treturn false;\n    }\n})",
+  "view": "Form"
+ }
+]
