@@ -1,12 +1,5 @@
 # Copyright (c) 2024, Pukat Digital and contributors
 # For license information, please see license.txt
-
-# import frappe
-# from frappe.model.document import Document
-
-# class BOPLoanDeduction(Document):
-# 	pass
-
 import frappe
 from frappe import utils
 from frappe.model.document import Document
@@ -25,6 +18,17 @@ class BOPLoanDeduction(Document):
 		parent_doc = frappe.get_doc(doc)
 		bop_loans = frappe.get_all("BOP Loan", filters=filters, fields=["*"])
 		# bop_loans = frappe.get_all("BOP Loan", filters={"docstatus": 1, "status": "Disbursed","disbursement_date": ["<=", date]}, fields=["*"])	
+
+		if doc.employee_status:
+			employee_status = doc.employee_status
+			filtered_loans = []
+			for loan in bop_loans:
+				employee = frappe.get_doc("Employee", loan.employee_id)
+				if employee.status == employee_status:
+					filtered_loans.append(loan)
+			bop_loans = filtered_loans
+
+
 		if not bop_loans:
 			frappe.msgprint(f"Record not Found !")
 		for loan in bop_loans:
@@ -63,21 +67,49 @@ class BOPLoanDeduction(Document):
 			else:
 				markup_percentage_amount = loan.monthly_repayment_amount * (loan.markup / 100)
 				principal_percentage_amount = loan.monthly_repayment_amount * (loan.principal / 100)
-					
+
 				deducted_principal_amount = min(principal_percentage_amount, loan.principal_balance)
 				deducted_markup_amount = min(markup_percentage_amount, loan.balance_markup_amount)
 
+				# Adjust the principal deduction based on remaining markup deduction
 				if loan.principal_balance > 0 and loan.principal_balance < principal_percentage_amount:
 					deducted_principal_amount = loan.principal_balance
+					remaining_markup_deduction = markup_percentage_amount - deducted_markup_amount
+					deducted_principal_amount += min(remaining_markup_deduction, loan.principal_balance)
 				else:
 					remaining_markup_deduction = markup_percentage_amount - deducted_markup_amount
-					deducted_principal_amount += max(min(remaining_markup_deduction, loan.principal_balance), 0)
+					deducted_principal_amount += min(remaining_markup_deduction, loan.principal_balance)
 
+				# Adjust the markup deduction based on remaining principal deduction
 				if loan.balance_markup_amount > 0 and loan.balance_markup_amount < markup_percentage_amount:
 					deducted_markup_amount = loan.balance_markup_amount
+					remaining_principal_deduction = principal_percentage_amount - deducted_principal_amount
+					deducted_markup_amount += min(remaining_principal_deduction, loan.balance_markup_amount)
 				else:
 					remaining_principal_deduction = principal_percentage_amount - deducted_principal_amount
-					deducted_markup_amount += max(min(remaining_principal_deduction, loan.balance_markup_amount), 0)
+					deducted_markup_amount += min(remaining_principal_deduction, loan.balance_markup_amount)
+
+				# Ensure that deducted amounts do not exceed the remaining balances
+				deducted_principal_amount = min(deducted_principal_amount, loan.principal_balance)
+				deducted_markup_amount = min(deducted_markup_amount, loan.balance_markup_amount)
+
+				# markup_percentage_amount = loan.monthly_repayment_amount * (loan.markup / 100)
+				# principal_percentage_amount = loan.monthly_repayment_amount * (loan.principal / 100)
+					
+				# deducted_principal_amount = min(principal_percentage_amount, loan.principal_balance)
+				# deducted_markup_amount = min(markup_percentage_amount, loan.balance_markup_amount)
+
+				# if loan.principal_balance > 0 and loan.principal_balance < principal_percentage_amount:
+				# 	deducted_principal_amount = loan.principal_balance
+				# else:
+				# 	remaining_markup_deduction = markup_percentage_amount - deducted_markup_amount
+				# 	deducted_principal_amount += max(min(remaining_markup_deduction, loan.principal_balance), 0)
+
+				# if loan.balance_markup_amount > 0 and loan.balance_markup_amount < markup_percentage_amount:
+				# 	deducted_markup_amount = loan.balance_markup_amount
+				# else:
+				# 	remaining_principal_deduction = principal_percentage_amount - deducted_principal_amount
+				# 	deducted_markup_amount += max(min(remaining_principal_deduction, loan.balance_markup_amount), 0)
 
 				loan_data = {
 					"loan_id": loan.name,
@@ -97,8 +129,6 @@ class BOPLoanDeduction(Document):
 					"deducted_markup_amount": max(0, deducted_markup_amount)
 				}
 				parent_doc.append("loan_deduction_details", loan_data)
-    
-    
     
 	@frappe.whitelist()
 	def additional_salery(doc,name):

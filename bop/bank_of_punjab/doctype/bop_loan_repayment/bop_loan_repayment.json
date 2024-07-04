@@ -36,9 +36,11 @@
   "total_principal_paid",
   "principal_balance",
   "column_break_28",
+  "opening_markup_amount",
   "total_markup_amount",
   "total_markup_paid",
   "balance_markup_amount",
+  "total_balance_amount",
   "amended_from"
  ],
  "fields": [
@@ -165,11 +167,13 @@
   },
   {
    "fieldname": "amount_paid",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Amount Paid",
+   "precision": "2",
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "deducted_amount_from_principal",
    "fieldtype": "Float",
    "label": "Deducted Amount From Principal",
@@ -187,27 +191,29 @@
    "label": "BOP Loan Amount Details"
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "against_loan.total_principal_amount",
    "fieldname": "total_principal_amount",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Principal Amount",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "against_loan.total_principal_paid",
    "fieldname": "total_principal_paid",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Principal Paid",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
    "fetch_from": "against_loan.principal_balance",
    "fieldname": "principal_balance",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Principal Balance",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -215,27 +221,30 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "against_loan.total_markup_amount",
    "fieldname": "total_markup_amount",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Markup Amount",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "against_loan.total_markup_paid",
    "fieldname": "total_markup_paid",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Total Markup Paid",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "against_loan.balance_markup_amount",
    "fieldname": "balance_markup_amount",
-   "fieldtype": "Currency",
+   "fieldtype": "Float",
    "label": "Balance Markup Amount",
-   "options": "Company:company:default_currency",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -246,12 +255,27 @@
    "options": "BOP Loan Repayment",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_balance_amount",
+   "fieldtype": "Float",
+   "label": "Total Balance Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "against_loan.opening_balance",
+   "fieldname": "opening_markup_amount",
+   "fieldtype": "Float",
+   "label": "Opening Markup Amount",
+   "precision": "2"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-27 13:51:10.916358",
+ "modified": "2024-06-28 19:15:48.184777",
  "modified_by": "Administrator",
  "module": "Bank of Punjab",
  "name": "BOP Loan Repayment",
